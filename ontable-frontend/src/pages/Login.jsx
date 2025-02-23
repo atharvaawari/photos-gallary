@@ -9,18 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import authSevices from "@/services/auth.services";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/store/authSlice";
 import { useLoginUserMutation } from "@/store/api/authApi";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
-
-  const user = useSelector((state) => state.authSlice?.userData);
 
   const [
     loginUser,
@@ -34,7 +29,7 @@ function Login() {
   ] = useLoginUserMutation();
 
   useEffect(() => {
-    if (loginIsSuccess && loginData) navigate("/home");
+    if (loginIsSuccess && loginData) navigate("/");
   }, [loginIsSuccess, loginData]);
 
   const handleSubmit = async (e) => {
@@ -42,19 +37,6 @@ function Login() {
     const formData = new FormData(e.target);
     const inputData = Object.fromEntries(formData);
     await loginUser(inputData);
-
-    // try {
-    //   const response = await authSevices.login(payload);
-    //   console.log("response.data.user", response.data.user);
-    //   if (response.statusCode === 200){
-    //     dispatch(login({ userData: response.data.user }))
-    //   };
-
-    //   navigate("/home");
-
-    // } catch (error) {
-    //   console.log("Error in submit login data", error);
-    // }
   };
 
   return (

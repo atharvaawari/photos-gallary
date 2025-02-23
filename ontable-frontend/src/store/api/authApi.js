@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { login, setUser } from "../authSlice";
+import { login, setUser, logout } from "../authSlice";
 
 const USER_BASE_URL = "/api/users/";
 
@@ -28,7 +28,7 @@ export const authApi = createApi({
           const result = await queryFulfilled;
           dispatch(login({ userData: result.data.data.user }));
         } catch (error) {
-          console.log("error fetching user data", error);
+          console.log("error login user data", error);
         }
       },
     }),
@@ -38,11 +38,25 @@ export const authApi = createApi({
         method: "GET",
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        
         try {
           const result = await queryFulfilled;
           dispatch(setUser({ userData: result.data.data }));
         } catch (error) {
           console.log("error fetching user data", error);
+        }
+      },
+    }),
+    logoutUser: builder.mutation({
+      query: () => ({
+        url: "logout",
+        method: "POST",
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          dispatch(logout());
+        } catch (error) {
+          console.log("error in logout user", error);
         }
       },
     }),
@@ -53,4 +67,5 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useGetUserQuery,
+  useLogoutUserMutation,
 } = authApi;

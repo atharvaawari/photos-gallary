@@ -3,7 +3,7 @@ import { useGetUserQuery } from "@/store/api/authApi";
 function Home() {
   // const user = useSelector((state) => state.authSlice?.userData);
 
-  const { data, isLoading } = useGetUserQuery();
+  const { data, isLoading, error  } = useGetUserQuery();
   
   const { userName, email } = data?.data || {};
 

@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import authSlice from "./authSlice";
 import rootReducers from "./rootReducer";
 import { authApi } from "./api/authApi";
 
@@ -9,9 +8,9 @@ const store = configureStore({
 });
 
 const initApp = async()=> {
-
  try {
   await store.dispatch(authApi.endpoints.getUser.initiate({}, {forceRefetch:true}))
+  console.log("called 1");
  } catch (error) {
     console.log("error2", error);
  }
